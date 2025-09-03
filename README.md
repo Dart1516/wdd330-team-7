@@ -20,6 +20,8 @@
 - `npm run build` to build final files when you are ready to turn in.
 
 
+ ### The link we created
+ - https://sleep-out-side-team7-sept-2025.netlify.app/
 ---
 _BYU-Pathway Worldwide improves lives through access to spiritually based, online affordable higher education. Its mission is to develop disciples of Jesus Christ who are leaders in their homes, the Church, and their communities._
 
