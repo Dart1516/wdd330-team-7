@@ -34,3 +34,19 @@ export function setClick(selector, callback) {
   });
   qs(selector).addEventListener("click", callback);
 }
+
+// src/js/utils.mjs
+export function renderListWithTemplate(
+  templateFn,
+  parentElement,
+  list,
+  position = 'afterbegin',
+  clear = false
+) {
+  if (!templateFn || !parentElement || !Array.isArray(list)) return;
+
+  if (clear) parentElement.innerHTML = '';
+
+  const htmlStrings = list.map(templateFn);
+  parentElement.insertAdjacentHTML(position, htmlStrings.join(''));
+}
