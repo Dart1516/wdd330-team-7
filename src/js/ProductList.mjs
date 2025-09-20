@@ -1,26 +1,61 @@
 import { renderListWithTemplate } from "./utils.mjs";
 
 function productCardTemplate(product) {
-  // I changed the link so it points to my detail page with ?product=<id>.
-  // NOTE: my detail HTML file lives in /product_pages/index.html in this project.
-  const detailUrl = `/product_pages/index.html?product=${product.Id}`;
+  // I want to show a discount badge whenever FinalPrice < SuggestedRetailPrice.
+  // Some products might not have SuggestedRetailPrice, so I use a safe fallback chain.
+  const basePrice = Number(
+    product.SuggestedRetailPrice ?? product.ListPrice ?? product.FinalPrice
+  );
+  const finalPrice = Number(product.FinalPrice ?? basePrice);
 
-  // I also switched the image to the API field 'Images.PrimaryMedium'.
-  // If it's missing for some item, I fallback to a placeholder.
+  // I add a tiny epsilon to avoid floating point issues like 19.989999 vs 19.99
+  const isDiscounted =
+    Number.isFinite(basePrice) &&
+    Number.isFinite(finalPrice) &&
+    finalPrice < basePrice - 0.005;
+
+  // I calculate both the absolute amount off and the percent off (rounded).
+  const amountOff = isDiscounted ? basePrice - finalPrice : 0;
+  const percentOff = isDiscounted ? Math.round((amountOff / basePrice) * 100) : 0;
+
+  // I pick the correct image field from the API (fallback to placeholder).
   const imgSrc = product.Images?.PrimaryMedium || '/images/placeholder.png';
 
-  // I keep the rest of the fields the same for now.
+  // I build the price HTML: if discounted, I show compare-at price with a strikethrough.
+  const priceHtml = isDiscounted
+    ? `
+      <p class="product-card__price">
+        <span class="price--final">$${finalPrice.toFixed(2)}</span>
+        <span class="price--compare">$${basePrice.toFixed(2)}</span>
+      </p>
+    `
+    : `
+      <p class="product-card__price">$${finalPrice.toFixed(2)}</p>
+    `;
+
+  // I show a small badge on top/left with the percent off (ex: -25%).
+  const badgeHtml = isDiscounted
+    ? `<span class="badge badge--sale" aria-label="${percentOff}% off">-${percentOff}%</span>`
+    : '';
+
+  // I keep the link to my detail page the same as before.
+  const detailUrl = `/product_pages/index.html?product=${product.Id}`;
+
   return `
-    <li class="product-card">
+    <li class="product-card" ${isDiscounted ? 'data-discounted="true"' : ''}>
       <a href="${detailUrl}">
-        <img src="${imgSrc}" alt="Image of ${product.NameWithoutBrand}">
+        <figure class="product-card__media">
+          ${badgeHtml}
+          <img src="${imgSrc}" alt="Image of ${product.NameWithoutBrand}">
+        </figure>
         <h3 class="card__name">${product.Brand?.Name ?? ''}</h3>
         <h2 class="card__brand">${product.NameWithoutBrand}</h2>
-        <p class="product-card__price">$${Number(product.FinalPrice).toFixed(2)}</p>
+        ${priceHtml}
       </a>
     </li>
   `;
 }
+
 
 export default class ProductList {
     constructor(category, dataSource, listElement) {

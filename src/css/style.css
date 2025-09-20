@@ -264,6 +264,47 @@ button {
   outline: 2px solid #333;
 }
 
+/* I use a small badge for discounted items */
+.badge--sale {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  border-radius: 0.375rem;
+  background: #d32f2f;
+  /* red-ish */
+  color: #fff;
+  line-height: 1;
+}
+
+/* I ensure the image container can hold the badge in a corner */
+.product-card__media {
+  position: relative;
+  display: block;
+}
+
+/* I strike through the compare-at price and lighten the color */
+.price--compare {
+  text-decoration: line-through;
+  color: #7a7a7a;
+  margin-left: 0.5rem;
+  font-size: 0.95em;
+}
+
+/* I make the final price a bit bolder to stand out */
+.price--final {
+  font-weight: 700;
+}
+
+/* Optional: slightly highlight discounted cards */
+.product-card[data-discounted="true"] {
+  /* I keep it subtle to avoid visual noise */
+  outline: 1px dashed #d32f2f20;
+  outline-offset: 4px;
+}
+
 
 @media screen and (min-width: 500px) {
   body {
