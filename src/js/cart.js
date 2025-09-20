@@ -1,37 +1,24 @@
-import { getLocalStorage } from "./utils.mjs";
+// cart.js
+// This file is now super simple because all the cart logic is inside ShoppingCart.mjs.
+// I only import what I need and start the process here.
 
-function renderCartContents() {
-  // Fix: If there is nothing in localStorage, return an empty array instead of null
-  const cartItems = getLocalStorage("so-cart") ?? [];
+import { loadHeaderFooter } from "./utils.mjs";
+import ShoppingCart from "./ShoppingCart.mjs";
 
-  // Fix: Handle empty cart case gracefully by displaying a message instead of crashing
-  if (cartItems.length === 0) {
-    document.querySelector(".product-list").innerHTML =
-      `<li class="cart-card divider"><p>Your cart is empty.</p></li>`;
-    return;
-  }
+loadHeaderFooter();
 
-  // Map each item in the cart to its HTML template
-  const htmlItems = cartItems.map((item) => cartItemTemplate(item));
+async function init() {
+    // First, I make sure the header and footer are loaded dynamically
+    await loadHeaderFooter();
 
-  // Render all cart items into the DOM
-  document.querySelector(".product-list").innerHTML = htmlItems.join("");
+    // Then, I create a new ShoppingCart instance.
+    // - '.product-list' is the place in the HTML where my cart items will go
+    // - 'so-cart' is the key I use in localStorage to store the cart
+    const cart = new ShoppingCart(".product-list", "so-cart");
+
+    // Finally, I initialize the cart so it renders everything on the page
+    cart.init();
 }
 
-// Template function that creates HTML for a single cart item
-function cartItemTemplate(item) {
-  return `
-  <li class="cart-card divider">
-    <a href="#" class="cart-card__image">
-      <img src="${item.Image}" alt="${item.Name}" />
-    </a>
-    <a href="#"><h2 class="card__name">${item.Name}</h2></a>
-    <!-- Fix: Safe navigation (?. and ??) to avoid errors if Colors or Quantity are missing -->
-    <p class="cart-card__color">${item.Colors?.[0]?.ColorName ?? ""}</p>
-    <p class="cart-card__quantity">qty: ${item.Quantity ?? 1}</p>
-    <p class="cart-card__price">$${item.FinalPrice}</p>
-  </li>`;
-}
-
-// Render the cart content automatically when the page loads
-renderCartContents();
+// I call init() to make sure everything runs when the page loads
+init();

@@ -28,12 +28,40 @@
         </div>
       </div>
 
-      <section class="products">
-        <h2>Top Products</h2>
-        <ul class="product-list">
-          
-        </ul>
-      </section>
+  <!-- I’m adding the category shortcuts on the Home page.
+       Goal: link each category to the new listing page, passing ?category=<value>. -->
+<section class="categories">
+  <h2>Shop by Category</h2>
+
+  <nav class="category-grid" aria-label="Product categories">
+    <!-- I’m using the image category-tents here. 
+         I keep the text inside <span> so it’s still readable and accessible. -->
+    <a href="/product_listing/index.html?category=tents" class="cat">
+      <img src="/images/category-tents.svg" alt="Tents category icon" />
+      <span>Tents</span>
+    </a>
+
+    <!-- For sleeping bags I use category-sleepingbags -->
+    <a href="/product_listing/index.html?category=sleeping-bags" class="cat">
+      <img src="/images/category-sleepingbags.svg" alt="Sleeping Bags category icon" />
+      <span>Sleeping Bags</span>
+    </a>
+
+    <!-- For hammocks -->
+    <a href="/product_listing/index.html?category=hammocks" class="cat">
+      <img src="/images/category-hammocks.svg" alt="Hammocks category icon" />
+      <span>Hammocks</span>
+    </a>
+
+    <!-- For backpacks -->
+    <a href="/product_listing/index.html?category=backpacks" class="cat">
+      <img src="/images/category-backpacks.svg" alt="Backpacks category icon" />
+      <span>Backpacks</span>
+    </a>
+  </nav>
+</section>
+
+
     </main>
     <footer class="divider" id="main-footer"> </footer>
     <script type="module" src="/js/main.js"></script> <!-- we use type module because we import  -->
