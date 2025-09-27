@@ -43,12 +43,13 @@
             <label for="city">City</label>
             <input type="text" name="city" id="city" autocomplete="address-level2" required />
 
-            <label for="state">State</label>
-            <input type="text" name="state" id="state" autocomplete="address-level1" required />
-
-            <label for="zip">Zip Code</label>
-            <input type="text" name="zip" id="zip" inputmode="numeric" maxlength="10" autocomplete="postal-code"
-              required />
+          <label for="state">State</label>
+          <input type="text" name="state" id="state" autocomplete="address-level1" required pattern="[A-Za-z]{2}"
+            title="Use 2 letters (e.g., UT, CA)" />
+          
+          <label for="zip">Zip Code</label>
+          <input type="text" name="zip" id="zip" inputmode="numeric" maxlength="10" autocomplete="postal-code" required
+            pattern="\d{5}(-\d{4})?" title="Use 12345 or 12345-6789" />
           </div>
         </fieldset>
 
@@ -57,16 +58,20 @@
           <legend>Payment</legend>
 
           <div class="checkout__payment">
-            <label for="cardNumber">Card Number</label>
-            <input type="text" name="cardNumber" id="cardNumber" inputmode="numeric" maxlength="16"
-              placeholder="1234123412341234" required value="1234123412341234"/>
 
-            <label for="expiration">Expiration</label>
-            <input type="text" name="expiration" id="expiration" placeholder="MM/YY" inputmode="numeric" maxlength="5"
-              required value="12/30 "/>
+<label for="cardNumber">Card Number</label>
+<input type="text" name="cardNumber" id="cardNumber" inputmode="numeric" maxlength="19" placeholder="1234123412341234"
+  required pattern="\d{13,19}" title="13–19 digits, numbers only" value="1234123412341234" />
 
-            <label for="code">CVV</label>
-            <input type="text" name="code" id="code" inputmode="numeric" maxlength="4" placeholder="123" required value="123"/>
+<label for="expiration">Expiration</label>
+<input type="text" name="expiration" id="expiration" placeholder="MM/YY" inputmode="numeric" maxlength="5" required
+  pattern="(0[1-9]|1[0-2])\/\d{2}"  title="Use MM/YY (e.g., 09/27)"  value="12/30"  />
+
+<label for="code">CVV</label>
+<input type="text" name="code" id="code" inputmode="numeric" maxlength="4" placeholder="123" required pattern="\d{3,4}" value="123"
+  title="3 or 4 digits" />
+
+ 
           </div>
         </fieldset>
 

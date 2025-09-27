@@ -88,34 +88,59 @@ export default class CheckoutProcess {
         if (totalEl) totalEl.innerText = `$${this.orderTotal.toFixed(2)}`;
     }
 
-    // === Enviar pedido ===
+    // === Send order ===
     async checkout(formElement) {
-        // Asegura que los totales estén calculados
+        // make sure totals are calculated
         if (this.orderTotal === 0 && this.itemCount > 0) {
             this.calculateOrderTotal();
         }
 
-        // 1) Tomar datos del form
+        // 1) get form data
         const order = formDataToJSON(formElement);
 
-        // 2) Completar datos requeridos por el backend
+        // 2) add extra fields
         order.orderDate = new Date().toISOString();
         order.orderTotal = this.orderTotal.toFixed(2);
         order.tax = this.tax.toFixed(2);
-        order.shipping = Number(this.shipping); // puede ser número según guía
+        order.shipping = Number(this.shipping);
         order.items = packageItems(this.list);
 
-        // 3) POST
         try {
+            // 3) send order
             const response = await services.checkout(order);
             console.log("Checkout success:", response);
 
-            // Feedback mínimo en UI (opcional)
-            alert("Order placed successfully!"); // puedes reemplazar por una pantalla de éxito
-            // window.location.href = "/checkout/success.html"; // si tienes una página de success
+            alert("Order placed successfully!");
+            // clear cart
+            localStorage.removeItem(this.key);
+            window.location.href = "./success.html";
+
         } catch (err) {
             console.error("Checkout error:", err);
-            alert(`Checkout failed: ${err.message}`);
+
+            if (err && err.name === "servicesError") {
+                // handle server error
+                const raw = err.message;
+                let humanMsg = "Checkout failed.";
+
+                if (typeof raw === "string") {
+                    humanMsg = raw;
+                } else if (raw && typeof raw === "object") {
+                    if (raw.message) {
+                        humanMsg = raw.message;
+                    } else if (Array.isArray(raw.errors)) {
+                        humanMsg = raw.errors.join(", ");
+                    } else {
+                        humanMsg = JSON.stringify(raw);
+                    }
+                }
+
+                alert(`Checkout failed: ${humanMsg}`);
+            } else {
+                // unexpected error
+                alert(`Checkout failed: ${err?.message || "Unknown error"}`);
+            }
         }
     }
+
 }
