@@ -1,0 +1,257 @@
+ /* ===== Shopify-like Checkout Look ===== */
+ :root {
+     --bg: #f6f6f7;
+     --card: #ffffff;
+     --text: #1f2937;
+     --muted: #6b7280;
+     --border: #e5e7eb;
+     --brand: #008060;
+     /* Shopify emerald */
+     --brand-600: #006e52;
+     --radius: 12px;
+     --shadow: 0 8px 24px rgba(0, 0, 0, .06);
+     --spacing: 16px;
+     --spacing-lg: 24px;
+     --font: system-ui, -apple-system, Segoe UI, Roboto, Inter, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+ }
+
+ /* Page */
+ body {
+     background: var(--bg);
+     color: var(--text);
+     font-family: var(--font);
+     line-height: 1.45;
+ }
+
+ main.checkout {
+     max-width: 1100px;
+     margin: 24px auto 64px;
+     padding: 0 var(--spacing);
+ }
+
+ main.checkout>h1 {
+     font-size: clamp(22px, 2.6vw, 32px);
+     margin: 0 0 var(--spacing-lg);
+ }
+
+ /* Form grid: 2 cols on desktop; summary at right */
+ .checkout-form form {
+     display: grid;
+     grid-template-columns: 1fr minmax(320px, 380px);
+     grid-template-areas:
+         "name summary"
+         "address summary"
+         "payment summary"
+         "submit summary";
+     gap: var(--spacing-lg);
+ }
+
+ /* Cards/fieldsets */
+ .checkout-form fieldset {
+     margin: 0;
+     padding: var(--spacing-lg);
+     background: var(--card);
+     border: 1px solid var(--border);
+     border-radius: var(--radius);
+     box-shadow: var(--shadow);
+ }
+
+ .checkout-form fieldset>legend {
+     padding: 0 6px;
+     font-weight: 600;
+     color: var(--muted);
+ }
+
+ /* Place each group in the left column */
+ .checkout-form fieldset:nth-of-type(1) {
+     grid-area: name;
+ }
+
+ .checkout-form fieldset:nth-of-type(2) {
+     grid-area: address;
+ }
+
+ .checkout-form fieldset:nth-of-type(3) {
+     grid-area: payment;
+ }
+
+ /* Summary card to the right */
+ .checkout-form fieldset.checkout-summary {
+     grid-area: summary;
+     position: sticky;
+     top: 16px;
+ }
+
+ /* Inputs */
+ .checkout-form label {
+     display: block;
+     font-size: 13px;
+     color: var(--muted);
+     margin-bottom: 6px;
+ }
+
+ .checkout-form input[type="text"],
+ .checkout-form input[type="email"],
+ .checkout-form input[type="tel"] {
+     width: 100%;
+     height: 44px;
+     border: 1px solid var(--border);
+     border-radius: 10px;
+     padding: 0 12px;
+     background: #fff;
+     color: var(--text);
+     outline: none;
+     transition: border-color .15s, box-shadow .15s;
+ }
+
+ .checkout-form input:focus {
+     border-color: var(--brand);
+     box-shadow: 0 0 0 4px rgba(0, 128, 96, .12);
+ }
+
+ /* Small grids inside groups (name/address/payment) */
+ .checkout__name,
+ .checkout__address {
+     display: grid;
+     gap: var(--spacing);
+ }
+
+ .checkout__name {
+     grid-template-columns: 1fr 1fr;
+ }
+
+ .checkout__address {
+     grid-template-columns: 1fr 1fr 120px 140px;
+ }
+
+ .checkout__payment {
+     grid-template-columns: 1fr 120px 100px;
+ }
+
+ /* Stack nicely on smaller widths */
+ @media (max-width: 1024px) {
+     .checkout-form form {
+         grid-template-columns: 1fr;
+         grid-template-areas:
+             "summary"
+             "name"
+             "address"
+             "payment"
+             "submit";
+     }
+
+     .checkout__address {
+         grid-template-columns: 1fr 1fr;
+     }
+
+     .checkout__payment {
+         grid-template-columns: 1fr 1fr;
+     }
+ }
+
+ /* Order Summary layout */
+ .order__summary {
+     display: grid;
+     grid-template-columns: 1fr auto;
+     row-gap: 10px;
+     column-gap: 12px;
+     font-size: 15px;
+ }
+
+ .order__summary>div:nth-child(odd) {
+     color: var(--muted);
+ }
+
+ .order__summary #orderTotal {
+     font-weight: 700;
+     font-size: 18px;
+ }
+
+ .order__summary #cartTotal,
+ .order__summary #tax,
+ .order__summary #shipping,
+ .order__summary #orderTotal,
+ .order__summary #num-items {
+     text-align: right;
+ }
+
+ /* Submit button */
+ #checkoutSubmit {
+     grid-area: submit;
+     justify-self: start;
+     background: var(--brand);
+     color: white;
+     border: 0;
+     height: 48px;
+     padding: 0 22px;
+     border-radius: 999px;
+     font-weight: 600;
+     letter-spacing: .2px;
+     cursor: pointer;
+     box-shadow: var(--shadow);
+     transition: transform .06s ease, background .15s;
+ }
+
+ #checkoutSubmit:hover {
+     background: var(--brand-600);
+ }
+
+ #checkoutSubmit:active {
+     transform: translateY(1px);
+ }
+
+ /* Tiny details */
+ .cart-hint {
+     font-size: 12px;
+     color: var(--muted);
+ }
+
+ input::placeholder {
+     color: #9ca3af;
+ }
+
+
+ 
+ /* ==== Layout limpio para Payment ==== */
+ .checkout__payment {
+     display: grid;
+     grid-template-columns: 1fr 1fr;
+     column-gap: var(--spacing);
+     row-gap: var(--spacing);
+ }
+
+ /* Card Number label en fila 1, toda la fila */
+ .checkout__payment label[for="cardNumber"] {
+     grid-column: 1 / -1;
+     grid-row: 1;
+ }
+
+ /* Card Number input en fila 2, toda la fila */
+ .checkout__payment #cardNumber {
+     grid-column: 1 / -1;
+     grid-row: 2;
+ }
+
+ /* Expiration y CVV labels en fila 3 */
+ .checkout__payment label[for="expiration"] {
+     grid-column: 1;
+     grid-row: 3;
+ }
+
+ .checkout__payment label[for="code"] {
+     grid-column: 2;
+     grid-row: 3;
+ }
+
+ /* Expiration y CVV inputs en fila 4 */
+ .checkout__payment #expiration {
+     grid-column: 1;
+     grid-row: 4;
+     width: 100%;
+ }
+
+ .checkout__payment #code {
+     grid-column: 2;
+     grid-row: 4;
+     width: 100%;
+ }
