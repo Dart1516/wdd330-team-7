@@ -146,12 +146,16 @@ export default class ShoppingCart {
 
         this.saveCart(items);
         this.renderCart();
+        window.dispatchEvent(new CustomEvent("cart:updated"));
+
     }
 
     removeItem(key) {
         const items = this.getCart().filter((it) => this.buildKey(it) !== key);
         this.saveCart(items);
         this.renderCart();
+        window.dispatchEvent(new CustomEvent("cart:updated"));
+
     }
 
     attachEvents() {

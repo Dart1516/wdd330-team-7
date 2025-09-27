@@ -18,3 +18,154 @@
     position: relative;
     display: block;
 }
+
+/* This is the notificación of the quantity of items of the cart*/
+/* Posicionar el badge como superíndice sobre el icono */
+.nav-cart {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+}
+
+.nav-cart img,
+.nav-cart svg {
+    width: 28px;
+    height: 28px;
+}
+
+/* notificatio globe */
+.cart-badge {
+    position: absolute;
+    top: -6px;
+    right: -8px;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 4px;
+    background: #111827;
+    color: #fff;
+    border-radius: 999px;
+    font-size: 11px;
+    line-height: 18px;
+    text-align: center;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, .2);
+    pointer-events: none;
+}
+
+
+.cart-badge .counter {
+    display: inline-block;
+    height: 18px;
+    overflow: hidden;
+    vertical-align: middle;
+}
+
+.cart-badge .num {
+    display: block;
+    
+    line-height: 18px;
+}
+
+.cart-badge {
+    transform-origin: center;
+    transition: transform .18s ease, opacity .18s ease;
+}
+
+.cart-badge.is-hidden {
+    opacity: 0;
+    transform: scale(0);
+    pointer-events: none;
+}
+
+
+@keyframes badgePopIn {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+
+    60% {
+        transform: scale(1.2);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes badgePopOut {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(0);
+        opacity: 0;
+    }
+}
+
+.cart-badge.pop-in {
+    animation: badgePopIn 240ms ease forwards;
+}
+
+.cart-badge.pop-out {
+    animation: badgePopOut 180ms ease forwards;
+}
+
+/* animación del icono mochila al añadir */
+@keyframes cartShake {
+
+    0%,
+    100% {
+        transform: rotate(0) scale(1);
+    }
+
+    20% {
+        transform: rotate(-10deg) scale(1.05);
+    }
+
+    40% {
+        transform: rotate(8deg) scale(1.05);
+    }
+
+    60% {
+        transform: rotate(-6deg) scale(1.03);
+    }
+
+    80% {
+        transform: rotate(4deg) scale(1.02);
+    }
+}
+
+.nav-cart.shake img,
+.nav-cart.shake svg {
+    animation: cartShake 420ms ease;
+}
+
+
+
+@keyframes upIn {
+    from {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes upOut {
+    from {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    to {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+}

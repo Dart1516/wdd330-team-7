@@ -89,6 +89,14 @@ export default class ProductDetails {
         }, 1200);
       }
     }
+    let cart = JSON.parse(localStorage.getItem('so-cart'));
+    if (!Array.isArray(cart)) cart = [];
+    
+    setLocalStorage('so-cart', cart);
+
+    // ✅ avisa al badge que el carrito cambió
+    window.dispatchEvent(new CustomEvent('cart:updated'));
+
   }
 }
 

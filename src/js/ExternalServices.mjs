@@ -1,7 +1,4 @@
-// URL base tomada desde .env
 const baseURL = import.meta.env.VITE_SERVER_URL;
-// Ejemplo: "https://wdd330-backend.onrender.com/"
-// IMPORTANTE: termina con "/" en el .env
 
 async function convertToJson(res) {
   if (!res.ok) {
@@ -13,7 +10,7 @@ async function convertToJson(res) {
 export default class ExternalServices {
   constructor() {}
 
-  // === Productos ===
+  // === Prodcts ===
   async getData(category) {
     const response = await fetch(`${baseURL}products/search/${category}`);
     const data = await convertToJson(response);
