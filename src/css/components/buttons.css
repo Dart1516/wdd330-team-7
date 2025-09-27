@@ -169,3 +169,60 @@ button {
     border-color: #aaa;
     color: #333 !important;
 }
+
+
+/*Checout */
+ 
+.btn-checkout {
+transition: transform 0.5s ease, box-shadow 0.5s ease !important;
+    transform-origin: center !important;
+    will-change: transform, box-shadow !important;
+    background-color: #525b0f !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100% !important;
+    min-width: 2rem !important;
+    min-height: 2.5rem !important;
+    color: white !important;
+        grid-column: 5;
+            justify-self: end;
+}
+
+/* Hover con inclinación hacia la izquierda-abajo */
+.btn-checkout:hover {
+    transform: rotate(-1deg) !important;
+    /* inclinación hacia la izquierda */
+    box-shadow:
+        -10px -10px 10px -10px rgba(0, 0, 0, .05),
+        10px 10px 10px -10px rgba(0, 0, 0, .05),
+        0 20px 35px -20px rgba(0, 0, 0, .5) !important;
+}
+
+/*back to cart */
+
+.btn-link {
+    transition: transform 0.5s ease, box-shadow 0.5s ease !important;
+    transform-origin: center !important;
+    will-change: transform, box-shadow !important;
+    background-color: #525b0f !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 240px !important;
+    min-width: 2rem !important;
+    min-height: 2.5rem !important;
+    color: white !important;
+    grid-column: 5;
+    justify-self: end;
+}
+
+/* Hover con inclinación hacia la izquierda-abajo */
+.btn-link:hover {
+    transform: rotate(-1deg) !important;
+    /* inclinación hacia la izquierda */
+    box-shadow:
+        -10px -10px 10px -10px rgba(0, 0, 0, .05),
+        10px 10px 10px -10px rgba(0, 0, 0, .05),
+        0 20px 35px -20px rgba(0, 0, 0, .5) !important;
+}

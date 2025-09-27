@@ -1,27 +1,105 @@
 <!doctype html>
-
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sleep Outside | Checkout</title>
+  <link rel="stylesheet" href="../css/style.css" />
 
-    <title>Sleep Outside | Checkout</title>
+  <script src="../js/checkout.js" type="module" defer></script>
+</head>
 
-    <link rel="stylesheet" href="css/style.css" />
-    <script src="../js/checkout.js" type="module"></script>
-  </head>
+<body>
+  <header class="divider" id="main-header"></header>
 
-  <body>
-    <header class="divider" id="main-header" ></header>
+  <main class="divider checkout">
+    <h1>Review &amp; Place your Order</h1>
 
-    <main class="divider">
-      <section class="products">
-        <h2>Review & Place your Order</h2>
-      </section>
-    </main>
+    <section class="checkout-form">
+      <form name="checkout" novalidate>
+        <input type="hidden" name="orderDate" id="orderDate" />
 
-    <footer class="divider" id="main-footer" ></footer>
+        <fieldset>
+          <legend>Customer Name</legend>
 
-  </body>
+          <div class="checkout__name">
+            <label for="fname">First Name</label>
+            <input type="text" name="fname" id="fname" autocomplete="given-name" required />
+
+            <label for="lname">Last Name</label>
+            <input type="text" name="lname" id="lname" autocomplete="family-name" required />
+          </div>
+        </fieldset>
+
+        <!-- Address -->
+        <fieldset>
+          <legend>Address</legend>
+
+          <div class="checkout__address">
+            <label for="street">Street Address</label>
+            <input type="text" name="street" id="street" autocomplete="address-line1" required />
+
+            <label for="city">City</label>
+            <input type="text" name="city" id="city" autocomplete="address-level2" required />
+
+            <label for="state">State</label>
+            <input type="text" name="state" id="state" autocomplete="address-level1" required />
+
+            <label for="zip">Zip Code</label>
+            <input type="text" name="zip" id="zip" inputmode="numeric" maxlength="10" autocomplete="postal-code"
+              required />
+          </div>
+        </fieldset>
+
+        <!-- Payment -->
+        <fieldset>
+          <legend>Payment</legend>
+
+          <div class="checkout__payment">
+            <label for="cardNumber">Card Number</label>
+            <input type="text" name="cardNumber" id="cardNumber" inputmode="numeric" maxlength="16"
+              placeholder="1234123412341234" required value="1234123412341234"/>
+
+            <label for="expiration">Expiration</label>
+            <input type="text" name="expiration" id="expiration" placeholder="MM/YY" inputmode="numeric" maxlength="5"
+              required value="12/30 "/>
+
+            <label for="code">CVV</label>
+            <input type="text" name="code" id="code" inputmode="numeric" maxlength="4" placeholder="123" required value="123"/>
+          </div>
+        </fieldset>
+
+        <!-- Order Summary (los IDs se usan en el JS de cálculo) -->
+        <fieldset class="checkout-summary">
+          <legend>Order Summary</legend>
+
+          <div class="order__summary">
+            <div>Items</div>
+            <div id="num-items" aria-live="polite">0</div>
+
+            <div>Subtotal</div>
+            <div id="cartTotal" aria-live="polite">$0.00</div>
+
+            <div>Tax (6%)</div>
+            <div id="tax" aria-live="polite">$0.00</div>
+
+            <div>Shipping</div>
+            <div id="shipping" aria-live="polite">$0.00</div>
+
+            <div>Total</div>
+            <div id="orderTotal" aria-live="polite">$0.00</div>
+          </div>
+        </fieldset>
+
+        <!-- Enviar pedido -->
+        <button type="submit" id="checkoutSubmit">Checkout</button>
+      </form>
+    </section>
+  </main>
+
+  <!-- Footer dinámico -->
+  <footer id="main-footer"></footer>
+</body>
+
 </html>

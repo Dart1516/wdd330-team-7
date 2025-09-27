@@ -1,4 +1,4 @@
-import ProductData from './ProductData.mjs';
+import ExternalServices from './ExternalServices.mjs';
 import ProductList from './ProductList.mjs';
 import { loadHeaderFooter, getParam } from './utils.mjs';
 
@@ -17,7 +17,7 @@ if (titleEl) {
 }
 
 // I set up the data source and product list as before, but now category is dynamic.
-const dataSource = new ProductData(category);
+const dataSource = new ExternalServices(category);
 const listElement = document.querySelector('.product-list');
 const productList = new ProductList(category, dataSource, listElement);
 productList.init();

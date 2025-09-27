@@ -3,6 +3,7 @@
 @import url("./base/utilities.css");
 @import url("./base/product-detail.css");
 @import url("./base/cart.css");
+@import url("./base/checkout.css");
 
 /* ===== Components (reusable) ===== */
 @import url("./components/buttons.css");
