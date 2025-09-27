@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Sleep Outside | Order Success</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <script type="module">
+        import { loadHeaderFooter } from "../js/utils.mjs";
+        loadHeaderFooter();
+
+        // optional: show order id if sent as ?orderId=123
+        const params = new URLSearchParams(location.search);
+        const id = params.get("orderId");
+        if (id) {
+            const el = document.getElementById("order-id");
+            if (el) el.textContent = `Order ID: ${id}`;
+        }
+    </script>
+</head>
+
+<body>
+    <header class="divider" id="main-header"></header>
+
+    <main class="divider checkout" style="text-align:center; padding:2rem 1rem;">
+        <h1>Thanks! Your order was placed ✅</h1>
+        <p id="order-id" style="margin-top:.5rem;"></p>
+        <p style="margin-top:1rem;">We sent a confirmation to your email.</p>
+
+        <a href="../index.html" class="button" style="display:inline-block; margin-top:1.5rem;">
+            Back to Home
+        </a>
+    </main>
+
+    <footer id="main-footer"></footer>
+</body>
+
+</html>
