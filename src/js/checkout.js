@@ -13,13 +13,13 @@ async function init() {
         zipInput.addEventListener("blur", () => checkout.calculateOrderTotal());
     }
 
-    // Validación básica del form (el POST vendrá en el siguiente paso)
+    // Enviar pedido
     const form = document.forms["checkout"];
     if (form) {
         form.addEventListener("submit", (e) => {
             e.preventDefault();
             if (!form.reportValidity()) return;
-            // checkout.checkout(form);  // <-- lo activaremos en el paso de POST
+            checkout.checkout(form);
         });
     }
 }

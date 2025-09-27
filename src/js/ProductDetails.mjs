@@ -2,7 +2,7 @@ import { setLocalStorage } from './utils.mjs';
 
 export default class ProductDetails {
   constructor(productId, dataSource) {
-    // I save the product id from the URL and the data source (ProductData)
+    // I save the product id from the URL and the data source (Now product Delais come from API)
     this.productId = productId;
 
     // This will hold the actual product object once I fetch it
