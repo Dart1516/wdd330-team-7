@@ -1,0 +1,14 @@
+ 
+.cart {
+    padding-top: 1em;
+    position: relative;
+    text-align: center;
+}
+
+.cart svg {
+    width: 25px;
+}
+
+.cart:hover svg {
+    fill: gray;
+}

@@ -1,0 +1,42 @@
+/* this is for the product listing pages (home, category). */
+
+.product-list {
+    display: flex;
+    flex-flow: row wrap;
+    list-style-type: none;
+    justify-content: center;
+}
+
+.product-list a {
+    text-decoration: none;
+    color: var(--dark-grey);
+}
+
+/* Generic product card used in lists */
+.product-card {
+    flex: 1 1 45%;
+    margin: 0.25em;
+    padding: 0.5em;
+    border: 1px solid var(--light-grey);
+    max-width: 250px;
+}
+
+.product-card h2,
+.product-card h3,
+.product-card p {
+    margin: 0.5em 0;
+}
+
+.card__brand {
+    font-size: var(--small-font);
+}
+
+.card__name {
+    font-size: 1em;
+}
+
+/* Optional: slightly highlight discounted cards */
+.product-card[data-discounted="true"] {
+    outline: 1px dashed #d32f2f20;
+    outline-offset: 4px;
+}

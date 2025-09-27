@@ -1,0 +1,11 @@
+/* this is for the main page of every product to the product detail page. */
+
+.product-detail {
+    padding: 1em;
+    max-width: 500px;
+    margin: auto;
+}
+
+.product-detail img {
+    width: 100%;
+}
