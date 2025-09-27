@@ -1,0 +1,47 @@
+/* This is for global, variables, and font. */
+:root {
+    --font-body: Arial, Helvetica, sans-serif;
+    --font-headline: Haettenschweiler, "Arial Narrow Bold", sans-serif;
+
+    /* colors */
+    --primary-color: #f0a868;
+    --secondary-color: #525b0f;
+    --tertiary-color: #8a470c;
+    --light-grey: #d0d0d0;
+    --dark-grey: #303030;
+
+    /* sizes */
+    --font-base: 18px;
+    --small-font: 0.8em;
+    --large-font: 1.2em;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-body);
+    font-size: var(--font-base);
+    color: var(--dark-grey);
+}
+
+img {
+    max-width: 100%;
+}
+
+/* Footer base size */
+footer {
+    font-size: var(--small-font);
+    padding: 1em;
+}
+
+
+@media screen and (min-width: 500px) {
+    body {
+        max-width: 1080px;
+        margin: auto;
+    }
+}

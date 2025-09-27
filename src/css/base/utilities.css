@@ -1,0 +1,8 @@
+/* this is for Tiny helpers I can reuse everywhere. */
+.highlight {
+    color: var(--tertiary-color);
+}
+
+.hide {
+    display: none;
+}

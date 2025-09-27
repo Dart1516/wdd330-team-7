@@ -21,9 +21,10 @@ export default class ProductDetails {
     this.renderProductDetails();
 
     // After rendering, I add a listener to the Add to Cart button
-    document
-      .getElementById('addToCart')
-      .addEventListener('click', this.addProductToCart.bind(this));
+    const btn = document.getElementById('addToCart');
+    if (btn) {
+      btn.addEventListener('click', this.addProductToCart.bind(this));
+    }
   }
 
   renderProductDetails() {
@@ -33,21 +34,61 @@ export default class ProductDetails {
     container.innerHTML = productDetailsTemplate(this.product);
   }
 
-  addProductToCart() {
-    // I load the cart from localStorage
-    let cart = JSON.parse(localStorage.getItem('so-cart'));
+  // tiny helper to guarantee a minimum visible loading time (~1s)
+  sleep(ms) {
+    return new Promise((r) => setTimeout(r, ms));
+  }
 
-    // If cart is empty or not an array, I start with a new array
-    if (!Array.isArray(cart)) cart = [];
+  async addProductToCart(evt) {
+    // ----- UI: enter loading state -----
+    const btn = evt?.currentTarget || document.getElementById('addToCart');
+    const label = btn?.querySelector('.label');
+    const originalText = label ? label.textContent : 'Add to cart';
 
-    // I push the current product object into the array
-    cart.push(this.product);
+    if (btn) {
+      btn.disabled = true;                 // I avoid double clicks
+      btn.classList.remove('is-success');
+      btn.classList.add('is-loading');     // shows the 3 dots
+      if (label) label.textContent = 'Adding';
+    }
 
-    // I save the updated cart back to localStorage
-    setLocalStorage('so-cart', cart);
+    const start = performance.now();
 
-    // For debugging I log what was added
-    console.log('Added to cart:', this.product);
+    try {
+      // ----- Data: push to localStorage (simple, like before) -----
+      let cart = JSON.parse(localStorage.getItem('so-cart'));
+      if (!Array.isArray(cart)) cart = [];
+      cart.push(this.product);
+      setLocalStorage('so-cart', cart);
+      console.log('Added to cart:', this.product);
+
+      // ----- Keep loading visible for ~1s -----
+      const elapsed = performance.now() - start;
+      if (elapsed < 1000) await this.sleep(1000 - elapsed);
+
+      // ----- UI: success, then restore -----
+      if (btn) {
+        btn.classList.remove('is-loading');
+        btn.classList.add('is-success');     // turns green + shows ✓
+        if (label) label.textContent = 'Added!';
+        setTimeout(() => {
+          btn.classList.remove('is-success');
+          if (label) label.textContent = originalText;
+          btn.disabled = false;
+        }, 900);
+      }
+    } catch (err) {
+      // If something fails, I restore the button and show a tiny hint
+      console.error('Add to cart failed:', err);
+      if (btn) {
+        btn.classList.remove('is-loading');
+        if (label) label.textContent = 'Try again';
+        btn.disabled = false;
+        setTimeout(() => {
+          if (label) label.textContent = originalText;
+        }, 1200);
+      }
+    }
   }
 }
 
@@ -70,11 +111,16 @@ function productDetailsTemplate(product) {
     <p class="product-card__price">$${priceText}</p>
     <p class="product__color">${color}</p>
     <p class="product__description">${descHtml}</p>
+
     <div class="product-detail__add">
-      <button id="addToCart" data-id="${product.Id}">Add to Cart</button>
+      <!-- I keep the same id, but add content for the animation -->
+      <button id="addToCart" class="btn btn--primary add-to-cart" data-id="${product.Id}">
+        <span class="label">Add to cart</span>
+        <span class="dots" aria-hidden="true"><span>.</span><span>.</span><span>.</span></span>
+        <span class="check" aria-hidden="true">✓</span>
+      </button>
     </div>
   `;
 }
 // I added a data-id attribute to the button for potential future use
 // but in this case I don't actually need it since the class already has the product info.
-

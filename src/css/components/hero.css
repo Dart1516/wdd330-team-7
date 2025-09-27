@@ -1,0 +1,11 @@
+ 
+.hero {
+    position: relative;
+}
+
+.hero .logo {
+    position: absolute;
+    left: calc(50% - 60px);
+    bottom: -15px;
+    background-color: white;
+}

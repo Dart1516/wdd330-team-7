@@ -1,0 +1,23 @@
+ /* this is for the categories section on the home page. */
+.categories {
+    margin-block: 2rem;
+}
+
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+}
+
+.category-grid .cat {
+    display: block;
+    padding: 1rem;
+    text-align: center;
+    border: 1px solid #ddd;
+    border-radius: .5rem;
+    text-decoration: none;
+}
+
+.category-grid .cat:hover {
+    outline: 2px solid #333;
+}
