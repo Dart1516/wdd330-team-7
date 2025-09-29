@@ -1,0 +1,12 @@
+[
+    {
+        "message": "Flash Sale! All tents are 15% off for 24 hours only!",
+        "background": "rgb(179, 107, 0)",
+        "color": "white"
+    },
+    {
+        "message": "New Winter Gear has arrived! Check out our sleeping bags.",
+        "background": "rgb(1, 102, 110)",
+        "color": "white"
+    }
+]
