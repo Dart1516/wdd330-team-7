@@ -21,3 +21,14 @@ const dataSource = new ExternalServices(category);
 const listElement = document.querySelector('.product-list');
 const productList = new ProductList(category, dataSource, listElement);
 productList.init();
+
+// src/js/product-listing.js
+
+import Alert from './Alert.js';
+// import ProductList from './ProductList.js';
+// ... other imports ...
+
+// Instantiate the Alert class to execute the alert building logic immediately
+new Alert();
+
+// ... rest of your product listing page code ...
