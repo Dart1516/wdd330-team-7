@@ -1,4 +1,4 @@
-document.querySelector('.newsletter-signup').addEventListener('submit', function (e) {
+document.getElementById('newsletter-form').addEventListener('submit', function (e) {
     e.preventDefault();
     const email = e.target.email.value;
 
@@ -7,8 +7,7 @@ document.querySelector('.newsletter-signup').addEventListener('submit', function
         return;
     }
 
-    // Simulate successful subscription
     console.log('Subscribed with email:', email);
-    alert('Thanks for subscribing to our newsletter!');
-    e.target.reset(); // Clear the form
+    alert('Thanks for subscribing!');
+    e.target.reset();
 });
