@@ -1,178 +1,100 @@
-
+// wrapper for querySelector...returns matching element
 export function qs(selector, parent = document) {
   return parent.querySelector(selector);
 }
+// or a more concise version if you are into that sort of thing:
+// export const qs = (selector, parent = document) => parent.querySelector(selector);
 
-
+// retrieve data from localstorage
 export function getLocalStorage(key) {
   return JSON.parse(localStorage.getItem(key));
 }
-
-// Save data into localStorage.
+// save data to local storage
 export function setLocalStorage(key, data) {
   localStorage.setItem(key, JSON.stringify(data));
 }
 
-// Get a query parameter value from the URL by name.
+// helper to get parameter strings
 export function getParam(param) {
-  const urlParams = new URLSearchParams(window.location.search);
-  return urlParams.get(param);
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  const product = urlParams.get(param);
+  return product;
 }
 
-// Add both touchend and click event listeners to an element.
-export function setClick(selector, callback) {
-  qs(selector).addEventListener("touchend", (event) => {
-    event.preventDefault(); // prevents double-firing on mobile
-    callback();
-  });
-  qs(selector).addEventListener("click", callback);
-}
-
-// Render a list of items into a parent element using a template function.
+// function to take a list of objects and a template and insert the objects as HTML into the DOM
 export function renderListWithTemplate(
   templateFn,
   parentElement,
   list,
-  position = 'afterbegin',
+  position = "afterbegin",
   clear = false
 ) {
-  if (!templateFn || !parentElement || !Array.isArray(list)) return;
-
-  if (clear) parentElement.innerHTML = '';
-
-  const htmlStrings = list.map(templateFn); // create HTML from each item
-  parentElement.insertAdjacentHTML(position, htmlStrings.join('')); // insert all at once
+  const htmlStrings = list.map(templateFn);
+  // if clear is true we need to clear out the contents of the parent.
+  if (clear) {
+    parentElement.innerHTML = "";
+  }
+  parentElement.insertAdjacentHTML(position, htmlStrings.join(""));
 }
 
-// Render HTML content into a parent element using a template string.
-export function renderWithTemplate(templateHtml, parentElement, callback) {
-  if (!templateHtml || !parentElement) return;
-  parentElement.innerHTML = templateHtml;
-  if (callback) callback(); // optional: run extra code after rendering
-}
-if (window.refreshCartBadge) {
-  window.refreshCartBadge(false);
-}
-
-// Load an HTML template from a URL and return it as a string.
-export async function loadTemplate(path) {
-  const response = await fetch(path);
-  const template = await response.text();
-  return template;
-}
-
-// Load and render header and footer templates into the page.
-export async function loadHeaderFooter() {
-  const headerTemplate = await loadTemplate('/partials/header.html');
-  const footerTemplate = await loadTemplate('/partials/footer.html');
-
-  const headerElement = document.querySelector('#main-header');
-  const footerElement = document.querySelector('#main-footer');
-
-  renderWithTemplate(headerTemplate, headerElement);
-  renderWithTemplate(footerTemplate, footerElement);
-  
-  if (window.refreshCartBadge) {
-       window.refreshCartBadge(false);
-     }
-}
-
-// -------------- Cart badge --------------
-
-let lastCount = null; // para detectar 0->>1 y 1->>0
-
-function getCartCount() {
-  try {
-    const raw = localStorage.getItem("so-cart");
-    const arr = raw ? JSON.parse(raw) : [];
-    if (!Array.isArray(arr)) return 0;
-    return arr.reduce((sum, it) => sum + Number(it?.Quantity ?? 1), 0);
-  } catch { return 0; }
-}
-
-function ensureBadge(count) {
-  const badge = document.getElementById("cartBadge");
-  const anchor = document.querySelector(".nav-cart");
-  if (!badge || !anchor) return;
-
-  // Transiciones de visibilidad
-  if (count > 0) {
-    // si estaba oculto, mostrar con pop
-    if (badge.classList.contains("is-hidden")) {
-      badge.classList.remove("is-hidden");
-      badge.removeAttribute("aria-hidden");
-      badge.classList.remove("pop-out");
-      // pop + shake solo cuando pasamos de 0 a >0
-      badge.classList.add("pop-in");
-      anchor.classList.add("shake");
-      setTimeout(() => {
-        badge.classList.remove("pop-in");
-        anchor.classList.remove("shake");
-      }, 500);
-    }
-  } else {
-    // si pasamos a 0, animación de salida y ocultar al final
-    if (!badge.classList.contains("is-hidden")) {
-      badge.classList.add("pop-out");
-      setTimeout(() => {
-        badge.classList.add("is-hidden");
-        badge.setAttribute("aria-hidden", "true");
-        badge.classList.remove("pop-out");
-        // también resetea el dígito a 0
-        const counter = badge.querySelector(".counter");
-        if (counter) counter.innerHTML = `<span class="num">0</span>`;
-      }, 180);
-    }
+// function to take an optional object and a template and insert the objects as HTML into the DOM
+export function renderWithTemplate(template, parentElement, data, callback) {
+  parentElement.insertAdjacentHTML("afterbegin", template);
+  //if there is a callback...call it and pass data
+  if (callback) {
+    callback(data);
   }
 }
 
-function paintBadge(count) {
-  const counter = document.querySelector("#cartBadge .counter");
-  if (!counter) return;
-  counter.innerHTML = `<span class="num">${count}</span>`;
+async function loadTemplate(path) {
+  const res = await fetch(path);
+  const template = await res.text();
+  return template;
 }
 
-// animación vertical del número
-function animateBadge(count) {
-  const counter = document.querySelector("#cartBadge .counter");
-  if (!counter) return;
+// function to dynamically load the header and footer into a page
+export async function loadHeaderFooter() {
+  const headerTemplate = await loadTemplate("../partials/header.html");
+  const headerElement = document.querySelector("#main-header");
+  const footerTemplate = await loadTemplate("../partials/footer.html");
+  const footerElement = document.querySelector("#main-footer");
 
-  const oldNum = counter.querySelector(".num");
-  const from = oldNum ? oldNum.textContent : "0";
-  const to = String(count);
-  if (from === to) return;
-
-  const next = document.createElement("span");
-  next.className = "num";
-  next.textContent = to;
-  next.style.animation = "upIn 220ms ease forwards";
-
-  if (oldNum) oldNum.style.animation = "upOut 220ms ease forwards";
-
-  counter.appendChild(next);
-  setTimeout(() => oldNum && oldNum.remove(), 240);
+  renderWithTemplate(headerTemplate, headerElement);
+  renderWithTemplate(footerTemplate, footerElement);
 }
 
-function refreshCartBadge(animated = false) {
-  const count = getCartCount();
-  ensureBadge(count);
-  if (animated && count > 0) animateBadge(count);
-  else paintBadge(count);
-  lastCount = count;
+// set a listener for both touchend and click
+export function setClick(selector, callback) {
+  qs(selector).addEventListener("touchend", (event) => {
+    event.preventDefault();
+    callback();
+  });
+  qs(selector).addEventListener("click", callback);
+}
+export function alertMessage(message, scroll = true, duration = 3000) {
+  const alert = document.createElement("div");
+  alert.classList.add("alert");
+  alert.innerHTML = `<p>${message}</p><span>X</span>`;
+
+  alert.addEventListener("click", function (e) {
+    if (e.target.tagName == "SPAN") {
+      main.removeChild(this);
+    }
+  });
+  const main = document.querySelector("main");
+  main.prepend(alert);
+  // make sure they see the alert by scrolling to the top of the window
+  //we may not always want to do this...so default to scroll=true, but allow it to be passed in and overridden.
+  if (scroll) window.scrollTo(0, 0);
+
+  // left this here to show how you could remove the alert automatically after a certain amount of time.
+  // setTimeout(function () {
+  //   main.removeChild(alert);
+  // }, duration);
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  // primer pintado (sin animación)
-  refreshCartBadge(false);
-});
-
-window.addEventListener("storage", (e) => {
-  if (e.key === "so-cart") refreshCartBadge(true);
-});
-
-// evento desacoplado desde el carrito
-window.addEventListener("cart:updated", () => refreshCartBadge(true));
-
-// expón una función por si prefieres llamarla directo
-window.refreshCartBadge = refreshCartBadge;
-
+export function removeAllAlerts() {
+  const alerts = document.querySelectorAll(".alert");
+  alerts.forEach((alert) => document.querySelector("main").removeChild(alert));
+}
