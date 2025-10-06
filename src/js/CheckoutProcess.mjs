@@ -4,7 +4,7 @@ import {
     alertMessage,
     removeAllAlerts,
 } from "./utils.mjs";
-import ExternalServices from "./ExternalServices.mjs";
+import ExternalServices from "./ExternalServices.js";
 
 const services = new ExternalServices();
 function formDataToJSON(formElement) {
