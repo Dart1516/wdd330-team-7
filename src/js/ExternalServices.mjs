@@ -1,36 +1,38 @@
-const baseURL = "http://server-nodejs.cit.byui.edu:3000/";
+const baseURL = import.meta.env.VITE_SERVER_URL;
+
 async function convertToJson(res) {
-  const data = await res.json();
+  const jsonResponse = await res.json(); // change always to Json
+
   if (res.ok) {
-    return data;
+    return jsonResponse;
   } else {
-    throw { name: "servicesError", message: data };
+    throw { name: "servicesError", message: jsonResponse };
   }
 }
 
 export default class ExternalServices {
-  constructor(category) {
-    // this.category = category;
-    // this.path = `../json/${this.category}.json`;
-  }
+  constructor() { }
+
+  // === Prodcts ===
   async getData(category) {
-    const response = await fetch(baseURL + `products/search/${category}`);
+    const response = await fetch(`${baseURL}products/search/${category}`);
     const data = await convertToJson(response);
     return data.Result;
   }
-  async findProductById(id) {
-    const response = await fetch(baseURL + `product/${id}`);
+
+  async getProductById(id) {
+    const response = await fetch(`${baseURL}product/${id}`);
     const data = await convertToJson(response);
     return data.Result;
   }
+
+  // === Checkout ===
   async checkout(payload) {
-    const options = {
+    const response = await fetch(`${baseURL}checkout`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
-    };
-    return await fetch(baseURL + "checkout/", options).then(convertToJson);
+    });
+    return convertToJson(response);
   }
 }
