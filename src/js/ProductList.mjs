@@ -48,21 +48,21 @@ function productCardTemplate(product) {
 
 
 export default class ProductList {
-    constructor(category, dataSource, listElement) {
-        this.category = category;
-        this.dataSource = dataSource;
-        this.listElement = listElement;
-    }
+  constructor(category, dataSource, listElement) {
+    this.category = category;
+    this.dataSource = dataSource;
+    this.listElement = listElement;
+  }
 
-    renderList(list) {
-        renderListWithTemplate(
-            productCardTemplate,   // 2️ the template function
-            this.listElement,      // 1️ the destination element
-            list,                  // the array of data
-            'afterbegin',          // 3️ where to insert
-            true                   // 3️ clear the element first
-        );
-    }
+  renderList(list) {
+    renderListWithTemplate(
+      productCardTemplate,   // 2️ the template function
+      this.listElement,      // 1️ the destination element
+      list,                  // the array of data
+      'afterbegin',          // 3️ where to insert
+      true                   // 3️ clear the element first
+    );
+  }
 
 
   async init() {
